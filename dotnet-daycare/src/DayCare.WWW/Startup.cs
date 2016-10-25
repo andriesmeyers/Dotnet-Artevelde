@@ -52,7 +52,7 @@ namespace DayCare.WWW
                 .AddDefaultTokenProviders();
 
                 // Register the OpenIddict services, including the default Entity Framework stores.
-            services.AddOpenIddict<ApplicationUser, ApplicationRole, ApplicationDbContext, Guid>()
+            services.AddOpenIddict<ApplicationDbContext, Guid>()
                 // Enable the authorization, logout, token and userinfo endpoints.
                 .EnableAuthorizationEndpoint("/connect/authorize")
                 .EnableLogoutEndpoint("/connect/logout")

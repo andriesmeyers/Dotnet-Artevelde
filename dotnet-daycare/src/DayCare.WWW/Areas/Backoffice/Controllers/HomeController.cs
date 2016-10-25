@@ -6,7 +6,7 @@ using DayCare.Db;
 using DayCare.Models;
 using DayCare.Models.Security;
 
-namespace DayCare.Areas.Backoffice.Controllers 
+namespace  DayCare.WWW.Areas.Backoffice.Controllers 
 {
     [Area("Backoffice")]
     public class HomeController : BaseController 

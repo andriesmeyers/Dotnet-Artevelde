@@ -556,11 +556,7 @@ namespace DayCare.Db.Migrations
 
                     b.Property<string>("Scope");
 
-                    b.Property<Guid?>("UserId");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("OpenIddictAuthorizations");
                 });
@@ -588,15 +584,11 @@ namespace DayCare.Db.Migrations
 
                     b.Property<string>("Type");
 
-                    b.Property<Guid?>("UserId");
-
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationId");
 
                     b.HasIndex("AuthorizationId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("OpenIddictTokens");
                 });
@@ -747,13 +739,6 @@ namespace DayCare.Db.Migrations
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
-            modelBuilder.Entity("OpenIddict.OpenIddictAuthorization<System.Guid>", b =>
-                {
-                    b.HasOne("DayCare.Models.Security.ApplicationUser")
-                        .WithMany("Authorizations")
-                        .HasForeignKey("UserId");
-                });
-
             modelBuilder.Entity("OpenIddict.OpenIddictToken<System.Guid>", b =>
                 {
                     b.HasOne("OpenIddict.OpenIddictApplication<System.Guid>")
@@ -763,10 +748,6 @@ namespace DayCare.Db.Migrations
                     b.HasOne("OpenIddict.OpenIddictAuthorization<System.Guid>")
                         .WithMany("Tokens")
                         .HasForeignKey("AuthorizationId");
-
-                    b.HasOne("DayCare.Models.Security.ApplicationUser")
-                        .WithMany("Tokens")
-                        .HasForeignKey("UserId");
                 });
         }
     }

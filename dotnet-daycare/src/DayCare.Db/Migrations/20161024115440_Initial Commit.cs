@@ -199,6 +199,19 @@ namespace DayCare.Db.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OpenIddictAuthorizations",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(nullable: false)
+                        .Annotation("Npgsql:ValueGeneratedOnAdd", true),
+                    Scope = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OpenIddictAuthorizations", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "OpenIddictScopes",
                 columns: table => new
                 {
@@ -379,21 +392,28 @@ namespace DayCare.Db.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OpenIddictAuthorizations",
+                name: "OpenIddictTokens",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(nullable: false)
                         .Annotation("Npgsql:ValueGeneratedOnAdd", true),
-                    Scope = table.Column<string>(nullable: true),
-                    UserId = table.Column<Guid>(nullable: true)
+                    ApplicationId = table.Column<Guid>(nullable: true),
+                    AuthorizationId = table.Column<Guid>(nullable: true),
+                    Type = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OpenIddictAuthorizations", x => x.Id);
+                    table.PrimaryKey("PK_OpenIddictTokens", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OpenIddictAuthorizations_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
+                        name: "FK_OpenIddictTokens_OpenIddictApplications_ApplicationId",
+                        column: x => x.ApplicationId,
+                        principalTable: "OpenIddictApplications",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_OpenIddictTokens_OpenIddictAuthorizations_AuthorizationId",
+                        column: x => x.AuthorizationId,
+                        principalTable: "OpenIddictAuthorizations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -447,40 +467,6 @@ namespace DayCare.Db.Migrations
                         principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OpenIddictTokens",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(nullable: false)
-                        .Annotation("Npgsql:ValueGeneratedOnAdd", true),
-                    ApplicationId = table.Column<Guid>(nullable: true),
-                    AuthorizationId = table.Column<Guid>(nullable: true),
-                    Type = table.Column<string>(nullable: true),
-                    UserId = table.Column<Guid>(nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_OpenIddictTokens", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_OpenIddictTokens_OpenIddictApplications_ApplicationId",
-                        column: x => x.ApplicationId,
-                        principalTable: "OpenIddictApplications",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OpenIddictTokens_OpenIddictAuthorizations_AuthorizationId",
-                        column: x => x.AuthorizationId,
-                        principalTable: "OpenIddictAuthorizations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_OpenIddictTokens_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -630,11 +616,6 @@ namespace DayCare.Db.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_OpenIddictAuthorizations_UserId",
-                table: "OpenIddictAuthorizations",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_OpenIddictTokens_ApplicationId",
                 table: "OpenIddictTokens",
                 column: "ApplicationId");
@@ -643,11 +624,6 @@ namespace DayCare.Db.Migrations
                 name: "IX_OpenIddictTokens_AuthorizationId",
                 table: "OpenIddictTokens",
                 column: "AuthorizationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_OpenIddictTokens_UserId",
-                table: "OpenIddictTokens",
-                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -703,6 +679,9 @@ namespace DayCare.Db.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "AspNetUsers");
+
+            migrationBuilder.DropTable(
                 name: "OpenIddictApplications");
 
             migrationBuilder.DropTable(
@@ -713,9 +692,6 @@ namespace DayCare.Db.Migrations
 
             migrationBuilder.DropTable(
                 name: "Categories");
-
-            migrationBuilder.DropTable(
-                name: "AspNetUsers");
 
             migrationBuilder.DropTable(
                 name: "Organisations");

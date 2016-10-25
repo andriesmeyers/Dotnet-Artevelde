@@ -6,18 +6,54 @@
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
-            "program": "${workspaceRoot}\\src\\DayCare.Db\\bin\\Debug\\netcoreapp1.0\\DayCare.Db.dll",
+            "program": "${workspaceRoot}/src/DayCare.WWW/bin/Debug/netcoreapp1.0/DayCare.WWW.dll",
             "args": [],
-            "cwd": "${workspaceRoot}",
-            "externalConsole": false,
+            "cwd": "${workspaceRoot}/src/DayCare.WWW",
+            "stopAtEntry": false
+        },
+        {
+            "name": ".NET Core Launch (web)",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceRoot}/src/DayCare.WWW/bin/Debug/netcoreapp1.0/DayCare.WWW.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}/src/DayCare.WWW",
+            "requireExactSource": false,
             "stopAtEntry": false,
-            "internalConsoleOptions": "openOnSessionStart"
+            "launchBrowser": {
+                "enabled": true,
+                "args": "${auto-detect-url}",
+                "windows": {
+                    "command": "cmd.exe",
+                    "args": "/C start ${auto-detect-url}"
+                },
+                "osx": {
+                    "command": "open",
+                    "args": "-a chrome ${auto-detect-url}"
+                },
+                "linux": {
+                    "command": "xdg-open"
+                }
+            }
+        },
+        {
+            "name": ".NET Core Launch (API)",
+            "type": "coreclr",
+            "request": "launch",
+            "program": "${workspaceRoot}/src/DayCare.API/bin/Debug/netcoreapp1.0/DayCare.API.dll",
+            "args": [],
+            "cwd": "${workspaceRoot}/src/Creche.API",
+            "requireExactSource": false,
+            "stopAtEntry": false,
+            "launchBrowser": {
+                "enabled": false
+            }
         },
         {
             "name": ".NET Core Attach",
             "type": "coreclr",
             "request": "attach",
-            "processId": "${command.pickProcess}"
+            "processName": "<example>"
         }
     ]
 }
