@@ -8,7 +8,7 @@ using DayCare.Db;
 namespace DayCare.Db.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20161024115440_Initial Commit")]
+    [Migration("20161025124541_Initial Commit")]
     partial class InitialCommit
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
